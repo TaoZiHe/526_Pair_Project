@@ -70,3 +70,11 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Local experiments - added by nw
+/[Aa]ssets/[Ll]ocalExperimenting/
+/[Aa]ssets/[Ll]ocalExperimenting.meta
+
+# Jetbrains Rider generated files - added by nw
+/.idea
+

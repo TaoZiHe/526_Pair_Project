@@ -44,8 +44,15 @@ public class PlayerController : MonoBehaviour
     {
         if(bulletTrigger)
         {
-            GameObject newBullet = Instantiate(bullet, this.transform.transform.position + new Vector3(1, 0, 0), this.transform.rotation) as GameObject;
-            Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>();
+            // GameObject newBullet = Instantiate(bullet, this.transform.transform.position + new Vector3(1, 0, 0), this.transform.rotation) as GameObject;
+            // Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>();
+            // bulletRb.velocity = this.transform.forward * bulletSpeed;
+            // bulletTrigger = false;
+
+            GameObject bullet = ObjPoolManager.GetInstance().GetObj("Prefabs/Bullet");
+            bullet.transform.position = this.transform.position + new Vector3(1, 0, 0);
+            bullet.transform.rotation = this.transform.rotation;
+            Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
             bulletRb.velocity = this.transform.forward * bulletSpeed;
             bulletTrigger = false;
         }
