@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3371002995205163125}
   - component: {fileID: 7509121784700408144}
   - component: {fileID: 556937645548759988}
-  - component: {fileID: 8740636043618123240}
+  - component: {fileID: 1725342754488024063}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: PossessionBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 27cac8cc483091a409f00b221be99c54, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,7 +134,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &8740636043618123240
+--- !u!114 &1725342754488024063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,8 +143,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8773097332739146844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ab85036d5dc5684fa31efb8b681f432, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d3d6dd275dd95c45bdca156701e2a3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeCycle: 1
-  atk: 1
+  lifeCycle: 5
+  atk: 0
+  shooter: {fileID: 0}

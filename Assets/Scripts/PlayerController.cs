@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,19 +10,31 @@ public class PlayerController : MonoBehaviour
     public float rotateSpeed = 60f;
     public float jumpSpeed = 5f;
 
-    public GameObject bullet;
+    public GameObject logTextContainer;
+    [SerializeField]  
+    private TextMeshProUGUI logText;
+
+    public float PossessionSkillCooldown = 5.0f;
+    private float lastSkillUseTime = -5.0f;
+
+    //public GameObject bullet;
     public float bulletSpeed = 100f;
     private bool bulletTrigger = false;
-
-
+    
     private float verticalInput;
     private float horizontalInput;
-    private Rigidbody _rb;
+    
+    //private Rigidbody _rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        //_rb = GetComponent<Rigidbody>();
+        
+        logText = logTextContainer.GetComponent<TMPro.TextMeshProUGUI>();
+        
+        // add event listener
+        EventCenter.GetInstance().AddEventListener("EnemyDies", OnKillingEnemy);
 
     }
 
@@ -33,11 +46,36 @@ public class PlayerController : MonoBehaviour
 
         this.transform.Translate(Vector3.forward * verticalInput * Time.deltaTime);
         this.transform.Rotate(Vector3.up * horizontalInput * Time.deltaTime);
-
+        
+        // Shooting a normal bullet
         if(Input.GetMouseButtonDown(0))
         {
             bulletTrigger = true;
         }
+        
+        // Shooting a possession bullet
+        if(Input.GetMouseButtonDown(1))
+        {
+            // Check if the skill is off cooldown
+            if (Time.time - lastSkillUseTime >= PossessionSkillCooldown)
+            {
+                ShootPossessionBullet();
+                logText.text = "Possession bullet is not ready yet.";
+            }
+                
+            else
+            {
+                // Notify the player that the skill is still on cooldown
+                Debug.Log("Possession bullet is not ready");
+                logText.text = "Possession bullet is not ready yet.";
+            }
+        }
+
+        if (Time.time - lastSkillUseTime >= PossessionSkillCooldown)
+        {
+            logText.text = "Possession bullet is ready.";
+        }
+        
     }
 
     private void FixedUpdate()
@@ -48,13 +86,40 @@ public class PlayerController : MonoBehaviour
             // Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>();
             // bulletRb.velocity = this.transform.forward * bulletSpeed;
             // bulletTrigger = false;
-
-            GameObject bullet = ObjPoolManager.GetInstance().GetObj("Prefabs/Bullet");
-            bullet.transform.position = this.transform.position + new Vector3(1, 0, 0);
-            bullet.transform.rotation = this.transform.rotation;
-            Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-            bulletRb.velocity = this.transform.forward * bulletSpeed;
-            bulletTrigger = false;
+            
+            ShootNormalBullet();
         }
+    }
+
+    private void ShootNormalBullet()
+    {
+        // Manually change this path for now. 
+        GameObject bullet = ObjPoolManager.GetInstance().GetObj("Prefabs/Bullet"); 
+        bullet.transform.position = this.transform.position + new Vector3(1, 0, 0);
+        bullet.transform.rotation = this.transform.rotation;
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        bulletRb.velocity = this.transform.forward * bulletSpeed;
+        bulletTrigger = false;
+    }
+
+
+    private void ShootPossessionBullet()
+    {
+        // Manually change this path for now. 
+        GameObject bullet = ObjPoolManager.GetInstance().GetObj("Prefabs/PossessionBullet");
+        PossessionBullet pb = bullet.GetComponent<PossessionBullet>();
+        pb.SetShooter(this.gameObject);
+        
+        bullet.transform.position = this.transform.position + new Vector3(1, 0, 0);
+        bullet.transform.rotation = this.transform.rotation;
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        bulletRb.velocity = this.transform.forward * bulletSpeed;
+        
+        lastSkillUseTime = Time.time;
+    }
+    
+    private void OnKillingEnemy(object info)
+    {   
+        Debug.Log("Player killed Enemy " + (info as EnemyController).EnemyName);
     }
 }

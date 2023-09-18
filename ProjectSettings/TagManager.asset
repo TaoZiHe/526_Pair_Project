@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - NormalEnemy
+  - Bullet
+  - EliteEnemy
+  - KeyEnemy
   layers:
   - Default
   - TransparentFX
