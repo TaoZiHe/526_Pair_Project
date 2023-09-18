@@ -31,8 +31,8 @@ public class PossessionBullet : MonoBehaviour
     {
         if (other.collider.CompareTag("NormalEnemy"))
         {
-            possessionPair[0] = shooter;
-            possessionPair[1] = other.gameObject;
+            possessionPair.Add(shooter);
+            possessionPair.Add(other.gameObject);
             EventCenter.GetInstance().TriggerEvent("PossessionSequence", possessionPair );
         }
         // if hitting anything, recycle the bullet immediately
