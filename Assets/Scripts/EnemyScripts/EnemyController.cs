@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
         {
             // if hit by a normal bullet: decrease health
             NormalBullet nb = collision.gameObject.GetComponent<NormalBullet>();
-            Debug.Log("Enemy is hit by a bullet");
+            //Debug.Log("Enemy is hit by a bullet");
             if (nb != null)
                 DecreaseHealth(nb);
         }

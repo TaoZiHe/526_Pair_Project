@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
         
         // add event listener
         EventCenter.GetInstance().AddEventListener("EnemyDies", OnKillingEnemy);
+        // Use event center to make sure a possession manager is initialized. Then pass an initial player reference (self) to the possession manager
+        EventCenter.GetInstance().AddEventListener("PossessionManagerInitialized", RegisterInitialPlayerControllable);
 
     }
 
@@ -121,5 +123,15 @@ public class PlayerController : MonoBehaviour
     private void OnKillingEnemy(object info)
     {   
         Debug.Log("Player killed Enemy " + (info as EnemyController).EnemyName);
+    }
+
+
+    private void RegisterInitialPlayerControllable(object info)
+    {
+        PossessionManager pm = info as PossessionManager;
+        if (pm != null)
+            pm.RegisterCurrentPlayerControllable(this.gameObject);
+        else
+            Debug.Log("Player Controler: Failed to register new player controller to Possession Manager.");
     }
 }
