@@ -43,5 +43,4 @@ public class MyMonoSceneManager : MonoBehaviour
         UIManager.GetInstance().SetSkillLogDisplay(skillLogDisplay);
         UIManager.GetInstance().SetCredits(credits);
     }
-    
 }
