@@ -11,8 +11,7 @@ public class EnemyController : MonoBehaviour
     public float health = 5.0f;
     private Color CustomColor;
     private Renderer renderer;
-
-    //private bool isAlertOn = false;
+    // TODO: how do enemies attack? Do elite and normal enemies need separate scripts?
     
     // Start is called before the first frame update
     void Start()
@@ -20,29 +19,21 @@ public class EnemyController : MonoBehaviour
         renderer = this.GetComponent<Renderer>();
         CustomColor = new Color(0.5f, 0.0f, 0.6f, 1f);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     /// <summary>
-    /// When a gameobject tagged 'player' enters the alert zone 
+    /// When a game object tagged 'player' enters the alert zone 
     /// </summary>
     public void SetAlertOn()
     {
-        //this.isAlertOn = true;
         renderer.material.SetColor("_Color", ActivateColor);
         Debug.Log("Enemy" + this.EnemyName + ": Player enters my warning zone");
     }
 
     /// <summary>
-    /// When a gameobject tagged 'player' exits the alert zone 
+    /// When a game object tagged 'player' exits the alert zone 
     /// </summary>
     public void SetAlertOff()
     {
-        //this.isAlertOn = false;
         renderer.material.SetColor("_Color", CustomColor);
         Debug.Log("Enemy" + this.EnemyName + ": Player exits my warning zone");
     }
