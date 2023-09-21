@@ -82,6 +82,5 @@ public class PossessionManager : MonoBehaviour
         
         EventCenter.GetInstance().TriggerEvent("PossessionEnded", this);
         this.currentPlayerControllable = originalPlayer;
-
     }
 }

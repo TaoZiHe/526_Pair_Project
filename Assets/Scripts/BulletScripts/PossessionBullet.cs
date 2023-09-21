@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PossessionBullet : MonoBehaviour
@@ -29,7 +30,8 @@ public class PossessionBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.collider.CompareTag("NormalEnemy"))
+        // enter the sequence only if the enemy hit is a normal enemy and it's not dead.
+        if (other.collider.CompareTag("NormalEnemy") && !other.gameObject.GetComponent<EnemyController>().isDead)
         {
             possessionPair.Add(shooter);
             possessionPair.Add(other.gameObject);
