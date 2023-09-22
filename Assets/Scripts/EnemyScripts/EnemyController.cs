@@ -60,15 +60,13 @@ public class EnemyController : MonoBehaviour
         renderer.material.SetColor("_Color", ActivateColor);
         // enable the sprite renderer in the child game object to show the '!' on its head
         // only if this object is not a key enemy.
-<<<<<<< Updated upstream
-        if(!gameObject.CompareTag("KeyEnemy"))
-            gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
+
         
-=======
+
         if (!gameObject.CompareTag("KeyEnemy"))
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
 
->>>>>>> Stashed changes
+
         Debug.Log("Enemy" + this.EnemyName + ": Player enters my warning zone");
     }
 
@@ -80,11 +78,9 @@ public class EnemyController : MonoBehaviour
         renderer.material.SetColor("_Color", DefaultColor); // remove custom color for now
         // disable the sprite renderer in the child game object to show the '!' on its head
         // only if this object is not a key enemy.
-<<<<<<< Updated upstream
-        if(!gameObject.CompareTag("KeyEnemy"))
-=======
+
         if (!gameObject.CompareTag("KeyEnemy"))
->>>>>>> Stashed changes
+
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
         Debug.Log("Enemy" + this.EnemyName + ": Player exits my warning zone");
     }
