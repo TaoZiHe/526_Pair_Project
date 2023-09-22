@@ -21,11 +21,20 @@ public class PlayerController : MonoBehaviour
     //public GameObject bullet;
     public float bulletSpeed = 100f;
     private bool bulletTrigger = false;
-    
+
+    public float playerHp = 200.0f;
+    public Color DeadColor = new Color(0.2f, 0.2f, 0.2f);
+    private Renderer renderer;
+    public bool isDead = false;
+    //given a pushForce to player when collide with enemy to avoid hp continuously decrease
+    public float pushForce = 15.0f;
+    private bool EnemyTrigger = false;
+
     private float verticalInput;
     private float horizontalInput;
     
     private Rigidbody _rb;
+    private Vector3 collisionDir;
 
     // Start is called before the first frame update
     void Start()
@@ -92,13 +101,25 @@ public class PlayerController : MonoBehaviour
             
             ShootNormalBullet();
         }
+
+        if (EnemyTrigger)
+        {
+            _rb.AddForce(collisionDir + new Vector3(0.2f, 0.3f, 0f) * pushForce, ForceMode.Impulse);
+            EnemyTrigger = false;
+        }
     }
 
     private void OnCollisionEnter(Collision other)
     {
         // Nullify the forces caused by collision
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
+        //_rb.velocity = Vector3.zero;
+        //_rb.angularVelocity = Vector3.zero;
+        if (other.gameObject.CompareTag("NormalEnemy")|| other.gameObject.CompareTag("EliteEnemy"))
+        {
+            EnemyTrigger = true;
+            DecreaseHealth();
+            collisionDir = (this.transform.position - other.gameObject.transform.position).normalized * 5;
+        }
     }
 
     private void ShootNormalBullet()
@@ -141,5 +162,20 @@ public class PlayerController : MonoBehaviour
             pm.RegisterCurrentPlayerControllable(this.gameObject);
         else
             Debug.Log("Player Controler: Failed to register new player controller to Possession Manager.");
+    }
+
+    private void DecreaseHealth()
+    {
+        playerHp = playerHp - 1;
+        if(playerHp <= 0)
+        {
+            Dies();
+        }
+    }
+
+    private void Dies()
+    {
+        isDead = true;
+        renderer.material.SetColor("_Color", DeadColor);
     }
 }
