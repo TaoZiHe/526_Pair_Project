@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
@@ -80,7 +81,15 @@ public class PossessionManager : MonoBehaviour
         if (pcp != null)
             Destroy(pcp);
         
+        // reactivate the enemy script
+        EnemyController ec = currentPlayerControllable.GetComponent<EnemyController>();
+        if (ec != null)
+            ec.enabled = true;
+        else
+            throw new Exception("Error: original enemy controller not found on possessed enemy.");
+        
         EventCenter.GetInstance().TriggerEvent("PossessionEnded", this);
+        
         this.currentPlayerControllable = originalPlayer;
     }
 }
