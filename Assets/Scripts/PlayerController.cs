@@ -177,5 +177,6 @@ public class PlayerController : MonoBehaviour
     {
         isDead = true;
         renderer.material.SetColor("_Color", DeadColor);
+        UIManager.GetInstance().ShowGameOver();
     }
 }
