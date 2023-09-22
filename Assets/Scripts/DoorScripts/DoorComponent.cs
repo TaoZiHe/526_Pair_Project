@@ -6,7 +6,7 @@ using UnityEngine.ProBuilder.MeshOperations;
 
 public class DoorComponent : MonoBehaviour
 {
-    private bool isUnlocked  = false;
+    private bool isUnlocked = false;
     // Allow access if "KeyEnemy" presses E.
     [SerializeField] private GameObject debugShooter, debugPossessed;
     private void Start()
@@ -22,8 +22,21 @@ public class DoorComponent : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
+        else if (!isUnlocked && Input.GetKeyDown(KeyCode.E))
+        {
+            UIManager.GetInstance().ShowDoorLockedPrompt();
+            StartCoroutine(CO_HideDoorLockedPrompt());
+        }
+    }
+    
+    private IEnumerator CO_HideDoorLockedPrompt()
+    {
+        
+        yield return new WaitForSeconds(3); 
+        UIManager.GetInstance().HideDoorLockedPrompt();
     }
 
+    
     private void CheckNewPlayerIdentity(object info)
     {
         List<GameObject> myList = info as List<GameObject>;

@@ -19,9 +19,9 @@ public class NormalBullet : MonoBehaviour
             this.gameObject);
     }
 
-    private void OnCollisionEnter(Collision other)
-    {   
-        // if hitting anything, recycle the bullet immediately
-        RecycleObj();
-    }
+    // private void OnCollisionEnter(Collision other)
+    // {   
+    //     // if hitting anything, recycle the bullet immediately
+    //     RecycleObj();
+    // }
 }

@@ -38,7 +38,7 @@ public class PossessionBullet : MonoBehaviour
             EventCenter.GetInstance().TriggerEvent("PossessionSequence", possessionPair );
         }
         // if hitting anything, recycle the bullet immediately
-        RecycleObj();
+        //RecycleObj();
     }
 
     public void SetShooter(GameObject obj)

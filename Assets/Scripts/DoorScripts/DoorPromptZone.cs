@@ -28,6 +28,7 @@ public class DoorPromptZone : MonoBehaviour
         if ( !other.CompareTag("Bullet") )
         {
             UIManager.GetInstance().HideDoorPrompt();
+            
         }
     }
 
