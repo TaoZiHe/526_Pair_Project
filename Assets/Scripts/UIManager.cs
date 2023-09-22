@@ -6,6 +6,7 @@ public class UIManager : BaseManager<UIManager>
 {
     private GameObject skillLogDisplay = GameObject.Find("PlayerSkillLogContainer");
     private GameObject credits = GameObject.Find("CreditsContainer");
+    private GameObject openDoorPrompt = GameObject.Find("OpenDoorPrompt");
     
     /// <summary>
     /// Allows other classes (original player or possessed enemies) to change the skill log display object. 
@@ -41,5 +42,20 @@ public class UIManager : BaseManager<UIManager>
     public void SetCredits(GameObject obj)
     {
         credits = obj;
+    }
+
+    public void ShowDoorPrompt()
+    {
+        openDoorPrompt.SetActive(true);
+    }
+    
+    public void HideDoorPrompt()
+    {
+        openDoorPrompt.SetActive(false);
+    }
+
+    public void SetDoorPrompt(GameObject obj)
+    {
+        openDoorPrompt = obj;
     }
 }

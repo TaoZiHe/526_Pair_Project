@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -24,12 +25,12 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     private float horizontalInput;
     
-    //private Rigidbody _rb;
+    private Rigidbody _rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        //_rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
         
         logText = logTextContainer.GetComponent<TMPro.TextMeshProUGUI>();
         
@@ -79,7 +80,7 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-
+    
     private void FixedUpdate()
     {
         if(bulletTrigger)
@@ -91,6 +92,13 @@ public class PlayerController : MonoBehaviour
             
             ShootNormalBullet();
         }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        // Nullify the forces caused by collision
+        _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
     }
 
     private void ShootNormalBullet()

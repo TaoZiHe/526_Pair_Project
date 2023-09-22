@@ -31,7 +31,7 @@ public class PossessionBullet : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         // enter the sequence only if the enemy hit is a normal enemy and it's not dead.
-        if (other.collider.CompareTag("NormalEnemy") && !other.gameObject.GetComponent<EnemyController>().isDead)
+        if  ( (other.collider.CompareTag("NormalEnemy") || other.collider.CompareTag("KeyEnemy") ) && !other.gameObject.GetComponent<EnemyController>().isDead )
         {
             possessionPair.Add(shooter);
             possessionPair.Add(other.gameObject);

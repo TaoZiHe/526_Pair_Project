@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerControllerPossessed : MonoBehaviour
 {
     // TODO: make these private and copy from enemy values 
-    public float moveSpeed = 5f;
+    public float moveSpeed = 10f;
     public float rotateSpeed = 60f;
     public float jumpSpeed = 5f;
 

@@ -13,6 +13,7 @@ public class MyMonoSceneManager : MonoBehaviour
         ReSearchUIElements();
         // Disable the credits when the game is started.
         UIManager.GetInstance().ToggleCredits();
+        UIManager.GetInstance().HideDoorPrompt();
     }
 
     void Update()
@@ -40,7 +41,9 @@ public class MyMonoSceneManager : MonoBehaviour
     {
         GameObject skillLogDisplay = GameObject.Find("PlayerSkillLogContainer");
         GameObject credits = GameObject.Find("CreditsContainer");
+        GameObject openDoorPrompt = GameObject.Find("OpenDoorPrompt");
         UIManager.GetInstance().SetSkillLogDisplay(skillLogDisplay);
         UIManager.GetInstance().SetCredits(credits);
+        UIManager.GetInstance().SetDoorPrompt(openDoorPrompt);
     }
 }
