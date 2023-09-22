@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Properties;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -11,13 +12,19 @@ public class EnemyController : MonoBehaviour
     public Color DeadColor = new Color(0.2f, 0.2f, 0.2f);
     public string EnemyName = "default enemy #1";
     public float health = 5.0f;
+    public Transform patrolRoute;
+    public List<Transform> locations;
+    private NavMeshAgent agent;
+    private Transform Player;
+
     //private Color CustomColor;
     private Renderer renderer;
     public bool isDead = false;
     private bool isPossessed = false;
-   
+    private int locationIndex;
+
     // TODO: how do enemies attack? Do elite and normal enemies need separate scripts?
-    
+
     // Start is called before the first frame update
     void Start()
     {   
@@ -25,6 +32,11 @@ public class EnemyController : MonoBehaviour
         //CustomColor = new Color(0.5f, 0.0f, 0.6f, 1f);
         //Get the default color set in this enemy's material
         DefaultColor = renderer.material.color;
+        InitializePatrolRoute();
+
+        agent = this.GetComponent<NavMeshAgent>();
+        Player = GameObject.Find("Player").transform;
+        
     }
 
     /// <summary>
@@ -39,15 +51,24 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// When a game object tagged 'player' enters the alert zone 
     /// </summary>
+    /// <summary>
+    /// When a game object tagged 'player' enters the alert zone 
+    /// </summary>
     public void SetAlertOn()
     {
         // Change this enemy's color to alert color
         renderer.material.SetColor("_Color", ActivateColor);
         // enable the sprite renderer in the child game object to show the '!' on its head
         // only if this object is not a key enemy.
+<<<<<<< Updated upstream
         if(!gameObject.CompareTag("KeyEnemy"))
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
         
+=======
+        if (!gameObject.CompareTag("KeyEnemy"))
+            gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
+
+>>>>>>> Stashed changes
         Debug.Log("Enemy" + this.EnemyName + ": Player enters my warning zone");
     }
 
@@ -59,7 +80,11 @@ public class EnemyController : MonoBehaviour
         renderer.material.SetColor("_Color", DefaultColor); // remove custom color for now
         // disable the sprite renderer in the child game object to show the '!' on its head
         // only if this object is not a key enemy.
+<<<<<<< Updated upstream
         if(!gameObject.CompareTag("KeyEnemy"))
+=======
+        if (!gameObject.CompareTag("KeyEnemy"))
+>>>>>>> Stashed changes
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
         Debug.Log("Enemy" + this.EnemyName + ": Player exits my warning zone");
     }
@@ -79,6 +104,30 @@ public class EnemyController : MonoBehaviour
             PossessionBullet pb = collision.gameObject.GetComponent<PossessionBullet>();
             if (pb != null)
                 ProtectSelf();
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            agent.destination = Player.position;
+        }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            agent.destination = Player.position;
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            agent.destination = locations[locationIndex].position;
         }
     }
 
@@ -120,5 +169,29 @@ public class EnemyController : MonoBehaviour
     public void DisableProtectSelf()
     {
         isPossessed = false;
+    }
+
+    public void InitializePatrolRoute()
+    {
+        foreach(Transform child in patrolRoute)
+        {
+            locations.Add(child);
+        }
+    }
+
+    public void MoveToNextLocation()
+    {
+        if (locations.Count == 0)
+        { return; }
+        agent.destination = locations[locationIndex].position;
+        locationIndex = (locationIndex + 1) % locations.Count;
+    }
+    
+    public void Update()
+    {
+        if(agent.remainingDistance < 0.3f && !agent.pathPending)
+        {
+            MoveToNextLocation();
+        }
     }
 }
